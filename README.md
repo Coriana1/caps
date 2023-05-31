@@ -10,7 +10,7 @@ CAPS Phase 1: Begin the build of an application for a product called CAPS
 
 ### Links and Resources
 
-- [GitHub Actions ci/cd](https://github.com/Coriana1/basic-auth/actions)
+- [GitHub Actions ci/cd](https://github.com/Coriana1/caps/actions)
 
 ### Collaborators
 
