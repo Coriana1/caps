@@ -13,8 +13,8 @@ CAPS Phase 1: Begin the build of an application for a product called CAPS
 - [GitHub Actions ci/cd](https://github.com/Coriana1/caps/actions)
 
 ### Collaborators
-
-Kenya Womack, Kao Sealor, AI, Starter code (class demo)
+I used the code from code review to build, still ran into some nodemon issues so I fixed routing and installed chance. 
+Kenya Womack, AI, Starter code (class demo)
 
 ### Setup
 
