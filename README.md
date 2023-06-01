@@ -14,7 +14,9 @@ CAPS Phase 1: Begin the build of an application for a product called CAPS
 
 ### Collaborators
 
-Kenya Womack, Kao Sealor, AI, Starter code (class demo)
+Kenya Womack, class demo
+
+I started the build out with what was given in class 
 
 ### Setup
 
@@ -37,4 +39,5 @@ to run tests, after running `npm i`, run the command `npm test`
 
 #### UML
 
-![UML image](capsUML.png)
+![lab11UML image](capsUML.png)
+![lab12UML image](socketio.png)
