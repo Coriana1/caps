@@ -1,18 +1,18 @@
 'use strict';
 
-let eventEmitter = require('./eventEmiitter');
+const eventEmitter = require('./eventEmitter');
 
-// handlers
-const payload = require('./chance');
-const { pickupHandler, deliveredHandler } = require('./vendor');
-const { driverHandler, intransitHandler } = require('./driver');
+// making system aware of vendor and driver
+require('./vendor/index');
+require('./driver/index');
 
-// listeners to all events
-driverHandler(payload);
-eventEmitter.on('PICKUP', pickupHandler);
-eventEmitter.on('IN-TRANSIT', intransitHandler);
-eventEmitter.on('DELIVERED', deliveredHandler);
-eventEmitter.on('EVENT', (event, payload) => {
-  let timestamp = new Date().toISOString();
-  console.log(`EVENT: { event: ${event}, time: ${timestamp}, payload: ${JSON.stringify(payload)} }` );
-});
+// listeners: listen to all events and log expected content
+eventEmitter.on('pickup', (payload) => logger('pickup', payload));
+eventEmitter.on('in-transit', (payload) => logger('in-transit', payload));
+eventEmitter.on('delivered', (payload) => logger('delivered', payload));
+
+// logs the event, a timestamp and the payload
+function logger(event, payload){
+  const timestamp = new Date();
+  console.log('EVENT: ', { event, timestamp, payload });
+}
