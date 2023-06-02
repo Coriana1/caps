@@ -1,24 +1,18 @@
 'use strict';
 
-let eventEmitter = require('../eventEmitter');
+const { io } = require('socket.io-client');
+const socket = io('http://localhost:3001/caps');
 
-const driverHandler = (payload) => {
+
+// const eventEmitter = require('../eventPool');
+const  { pickupOccurred, packageDelivered } = require('./handler');
+
+// how will we handle socket when modularized?
+socket.on('pickup', (payload) => {
   setTimeout(() => {
-    console.log('Driver: picked up: ', payload.orderId);
-
-    // payload in this case is the string 'close'
-    eventEmitter.emit('EVENT', 'in-transit', payload);
-    eventEmitter.emit('IN-TRANSIT', payload);
-  }, 500);
-};
-
-const intransitHandler = (payload) => {
+    pickupOccurred(payload, socket);
+  }, 1000);
   setTimeout(() => {
-    console.log('DRIVER: delivered up', payload.orderId);
-    console.log('VENDOR: Thank you for delivering', payload.orderId);
-
-    eventEmitter.emit('EVENT', 'delivered', payload);
-  }, 500);
-};
-
-module.exports = { driverHandler, intransitHandler };
+    packageDelivered(payload, socket);
+  }, 2000);
+}); 

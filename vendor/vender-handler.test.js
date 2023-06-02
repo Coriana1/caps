@@ -1,27 +1,49 @@
-// 'use strict';
+'use strict';
 
-// // bring in the object to be mocked
-// const eventEmitter = require('../eventEmitter');
-// const handler = require('./handler');
+//imports socket
+let socket = require('../socket-client-for-tests-only');
 
+const { orderHandler, thankDriver } = require('./handler');
 
-// // to mock, first require in (see above eventEmitter) they take it over with a mock
-// jest.mock('../eventEmitter.js', () => {
-//   return {
-//     on: jest.fn(),
-//     emit: jest.fn(),
-//   };
-// });
+//mocks the socket test only returning an object w/ implemations for 'on' and 'emit methods
+jest.mock('../socket-client-for-tests-only.js', () => {
+  return {
+    on: jest.fn(),
+    emit: jest.fn(),
+  };
+});
+ //hold reference to spy on console
+let consoleSpy;
+//sets just jest 'beforeAll' hook executed before running
+beforeAll(() => {
+  consoleSpy = jest.spyOn(console, 'log').mockImplementation();
+});
+//sets up jest for 'afterAll' hook to be executed after all test have ran
+afterAll(() => {
+  consoleSpy.mockRestore();
+});
 
-// // this will be updated toa  spy.  this is DANGEROUS, only gets you about 80% correct functionality.  very brittle.  spy is coming
-// console.log = jest.fn();
+describe('Vendor handlers', () => {
 
-// describe ('Eye Handler', () => {
-//   it ('log and emit brightness payload', () => {
-//     const payload = {brightness: 42};
-//     handler(payload);
-//     expect(console.log).toHaveBeenCalledWith(`Eyes: see brightness of ${payload.brightness}`);
-//     expect(eventEmitter.emit).toHaveBeenCalledWith('BRIGHTNESS', payload);
+  test('Should log correct emit and console log for orderHandler', () => {
+    let payload = {
+      orderId: 12345,
+    };
 
-//   });
-// });
+    orderHandler(socket, payload);
+
+    expect(consoleSpy).toHaveBeenCalledWith('VENDOR: ORDER ready for pickup:', payload);
+    expect(socket.emit).toHaveBeenCalledWith('pickup', payload);
+  });
+
+  test('Should log correct emit and console log for thankDriver', () => {
+    let payload = {
+      customer: 'Test Test',
+    };
+
+    thankDriver(payload);
+
+    expect(consoleSpy).toHaveBeenCalledWith('VENDOR: Thank you for your order', payload.customer);
+  });
+
+});

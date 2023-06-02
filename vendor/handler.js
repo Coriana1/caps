@@ -1,11 +1,19 @@
-// 'use strict';
+'use strict';
 
-// let eventEmitter = require('../eventEmitter');
+var Chance = require('chance');
+var chance = new Chance();
 
+const orderHandler = (socket, payload=null) => {
+  if(!payload){
+    payload = {
+      store: chance.company(),
+      orderId: chance.guid(),
+      customer: chance.name(),
+      address: chance.address(),
+    };
+  }
+  console.log('VENDOR: ORDER ready for pickup:', payload);
+  socket.emit('pickup', payload); 
+};
 
-// // extracting the handler makes it testable!
-// module.exports = (payload) => {
-//   console.log(`Eyes: see brightness of ${payload.brightness}`);
-//   eventEmitter.emit('BRIGHTNESS', payload);
-
-// };
+//  the orderHandler function generates random order data using the chance module if a payload is not provided. It then logs the order details and emits a pickup event to the Socket.IO server using the provided socket object.
