@@ -12,7 +12,7 @@ jest.mock('../socket-client-for-tests-only.js', () => {
     emit: jest.fn(),
   };
 });
- //hold reference to spy on console
+//hold reference to spy on console
 let consoleSpy;
 //sets just jest 'beforeAll' hook executed before running
 beforeAll(() => {
@@ -32,16 +32,24 @@ describe('Vendor handlers', () => {
 
     orderHandler(socket, payload);
 
-    expect(consoleSpy).toHaveBeenCalledWith('VENDOR: ORDER ready for pickup:', payload);
-    expect(socket.emit).toHaveBeenCalledWith('pickup', payload);
-  });
-
-  test('Should log correct emit and console log for thankDriver', () => {
-    let payload = {
-      customer: 'Test Test',
-    };
+    test('Should log correct emit and console log for thankDriver', () => {
+      let payload = {
+        customer: 'Test Test',
+      };
+      expect(consoleSpy).toHaveBeenCalledWith('VENDOR: ORDER ready for pickup:', payload);
+      expect(socket.emit).toHaveBeenCalledWith('pickup', payload);
+    });
 
     thankDriver(payload);
+    test('Should log correct emit and console log for thankDriver', () => {
+      let payload = {
+        customer: 'Test Test',
+      };
+
+      expect(consoleSpy).toHaveBeenCalledWith('VENDOR: Thank you for your order', payload.customer);
+    });
+    thankDriver(payload);
+
 
     expect(consoleSpy).toHaveBeenCalledWith('VENDOR: Thank you for your order', payload.customer);
   });

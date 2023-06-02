@@ -13,7 +13,7 @@ const orderHandler = (socket, payload=null) => {
     };
   }
   console.log('VENDOR: ORDER ready for pickup:', payload);
-  socket.emit('pickup', payload); 
+  socket.emit('pickup', payload);
 };
 
 //  the orderHandler function generates random order data using the chance module if a payload is not provided. It then logs the order details and emits a pickup event to the Socket.IO server using the provided socket object.

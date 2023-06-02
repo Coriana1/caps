@@ -15,4 +15,4 @@ socket.on('pickup', (payload) => {
   setTimeout(() => {
     packageDelivered(payload, socket);
   }, 2000);
-}); 
+});
