@@ -1,24 +1,13 @@
 'use strict';
 
-let eventEmitter = require('../eventEmitter');
-
-const pickupOccurred = (payload) => {
+const pickupOccurred = (payload, socket) => {
   console.log('DRIVER: picked up', payload.orderId);
-  eventEmitter.emit('in-transit', payload);
+  socket.emit('in-transit', payload);
 };
 
-const packageDelivered = (payload) => {
+const packageDelivered = (payload, socket) => {
   console.log('DRIVER: delivered', payload.orderId);
-  eventEmitter.emit('delivered', payload);
+  socket.emit('delivered', payload);
 };
 
-const handlePickupAndDelivery = (payload) => {
-  setTimeout(() => {
-    pickupOccurred(payload);
-  }, 1000);
-  setTimeout(() => {
-    packageDelivered(payload);
-  }, 2000);
-};
-
-module.exports = { pickupOccurred, packageDelivered, handlePickupAndDelivery };
+module.exports = { pickupOccurred, packageDelivered };

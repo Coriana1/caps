@@ -1,27 +1,20 @@
 'use strict';
 
-
-// const eventEmitter = require('../eventEmitter');
-
-// const pickupHandler = (payload) => {
-//   setTimeout(() => {
-//     eventEmitter.emit('EVENT', 'pickup', payload);
-//     eventEmitter.emit('PICKUP', payload);
-//   }, 5000);
-// };
-
-// const deliveredHandler = (payload) => {
-//   setTimeout(() => {
-//     console.log('VENDOR: Thank you for your order', payload.customer);
-//     eventEmitter.emit('DELIVERED', payload);
-//   }, 500);
-// };
-
-// module.exports = { pickupHandler, deliveredHandler };
-
-//commented above out because not needed for lab 12
-
 const { io } = require('socket.io-client');
+
+// we establish ourself as a socket client, and connect
 const socket = io('http://localhost:3001/caps');
 
-// socket.on and handlers, and emits go here
+const { orderHandler, thankDriver } = require('./handler');
+
+// emits a pickup event periodically using the orderHandler function, and listens for the delivered event from the server, triggering the thankDriver function with a delay.
+setInterval(() => {
+
+  orderHandler(socket);
+}, 5000);
+
+socket.on('delivered', (payload) => {
+  setTimeout(() => {
+    thankDriver(payload);
+  }, 1000);
+});
