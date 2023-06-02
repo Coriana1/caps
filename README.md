@@ -17,10 +17,9 @@ CAPS Phase 1: Begin the build of an application for a product called CAPS
 
 Kenya Womack, class demo
 
-I started the build out with what was given in class 
+I started the build out with what was given in class
 
-I used the code from code review to build, still ran into some nodemon issues so I fixed routing and installed chance. 
-Kenya Womack, AI, Starter code (class demo)
+I used the code from code review to build
 
 
 ### Setup
@@ -47,4 +46,5 @@ to run tests, after running `npm i`, run the command `npm test`
 
 ![lab11UML image](capsUML.png)
 ![lab12UML image](socketio.png)
+![lab13UML image](queue.png)
 

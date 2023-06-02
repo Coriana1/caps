@@ -3,6 +3,9 @@
 require('dotenv').config();
 const { Server } = require('socket.io');
 const PORT = process.env.PORT || 3001;
+const Queue = require('./lib/queue');
+
+let messageQueue = new Queue();
 
 // socket server singleton
 const server = new Server();
@@ -15,7 +18,7 @@ caps.on('connection', (socket) => {
   // confirmation that a client is connected
   console.log('connected to the caps namespace', socket.id);
 
-  // any event emitted is read by onAny  
+  // any event emitted is read by onAny
   socket.onAny((event, payload) => {
     let timestamp = new Date();
     // will log everything as required by lab
@@ -26,6 +29,14 @@ caps.on('connection', (socket) => {
   socket.on('pickup', (payload) => {
     // TODO: for lab-13, need to queue "pickup" messaging to the driver
     // sends to all clients except sender...  other possibilities
+    let currentQueue = messageQueue.get('DRIVER');
+    if (!currentQueue) {
+      const queueKey = 'DRIVER';
+      const queue = new Queue();
+      messageQueue.set(queueKey, queue);
+      currentQueue = queue;
+    }
+    currentQueue.enqueue(payload.orderId, payload);
     socket.broadcast.emit('pickup', payload);
   });
 

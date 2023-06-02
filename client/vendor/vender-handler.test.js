@@ -1,7 +1,7 @@
 'use strict';
 
 //imports socket
-let socket = require('../socket-client-for-tests-only');
+let socket = require('../../socket-client-for-tests-only');
 
 const { orderHandler, thankDriver } = require('./handler');
 
